@@ -1,6 +1,7 @@
 import React from 'react';
-import { WagmiConfig, createClient, configureChains, useAccount, useConnect, useDisconnect } from 'wagmi';
+import { WagmiConfig, createConfig, configureChains, useAccount, useConnect, useDisconnect } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
+import { walletConnectProvider } from '@wagmi/core/providers/walletConnect';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 
 const { chains, provider } = configureChains(
@@ -24,13 +25,13 @@ const { chains, provider } = configureChains(
   [publicProvider()]
 );
 
-const client = createClient({
+const config = createConfig({
   autoConnect: true,
   connectors: [
     new WalletConnectConnector({
       chains,
       options: {
-        projectId: "tea-protocol-app", // use your WalletConnect projectId
+        projectId: "tea-protocol-app", // Replace with your WalletConnect Project ID
         metadata: {
           name: "Tea Tx Checker",
           description: "Check Tea Protocol transactions",
@@ -40,7 +41,7 @@ const client = createClient({
       },
     }),
   ],
-  provider,
+  publicClient: publicProvider(),
 });
 
 function WalletConnectUI({ setAddress }) {
@@ -77,7 +78,7 @@ function WalletConnectUI({ setAddress }) {
 
 export default function WalletProvider({ children, setAddress }) {
   return (
-    <WagmiConfig client={client}>
+    <WagmiConfig config={config}>
       <WalletConnectUI setAddress={setAddress} />
       {children}
     </WagmiConfig>
