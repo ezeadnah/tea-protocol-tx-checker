@@ -1,7 +1,6 @@
 import React from 'react';
 import { WagmiConfig, createConfig, configureChains, useAccount, useConnect, useDisconnect } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
-import { walletConnectProvider } from '@wagmi/core/providers/walletConnect';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 
 const { chains, provider } = configureChains(
